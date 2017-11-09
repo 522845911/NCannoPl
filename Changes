@@ -1,0 +1,283 @@
+0.01  Tue Jun 18 19:11:02 2013
+	- original version; created by h2xs 1.23 with options
+		-AXc -n BedAnno -b v5.10.1
+
+0.10  Mon Jul 08 17:01:02 2013
+	- alpha version released.
+
+0.11  Mon Jul 08 22:01:02 2013
+	- add method write_using() to generate db information files.
+
+0.12  Tue Jul 09 13:01:02 2013
+	- fix a bug in parse_cPos, when dealing with intron mutation
+
+0.13  Tue Jul 09 22:32:02 2013
+	- add a new type 'c' to write_using() method to make the
+	  complete annotation region be available to generate.
+
+0.14  Wes Jul 10 13.14:02 2013
+	- fix a bug of typo in parse_var()
+
+0.15  Sun Jul 14 22:04:01 2013
+	- support character 'N' in the variation string
+	- add a exported method individual_anno() to combinate 
+	  two variation in one individual.
+
+0.16  Sun Jul 16 16:17:01 2013
+	- fix bugs in write_using()
+	- add a method get_cover_batch() to fetch cPos information 
+	  of region in batch mode
+	- add comments for annodb format.
+
+0.17  Thu Jul 18 19:58:02 2013
+	- add an exported method get_gHGVS which generate 'g./m.' HGVS string
+
+0.18  Tue Jul 23 20:30:01 2013
+	- fix a few bugs
+	- add more test cases
+
+0.19  Thu Jul 25 15:00:00 2013
+	- change the library to not to use perl v5.10 feature, change all 
+	  given/when structure to if/elsif structure. for furture compatible
+	  issues.
+
+0.20  Thu Jul 26 21:03:03 2013
+	- fix a bug in get_internal()
+	- add various test cases
+
+0.30  Thu Aug 21 11:43:07 2013
+	- change the structure of return value for pairanno(), 
+	  move the strd information out of the flanks infomations 
+	  as an outer key.
+	- change function of 'altstart' to 'misstart'
+
+0.31  Thu Aug 24 09:06:08 2013
+	- change to support short peptide code annotation by add a new 
+	  parameter: "short", in the 'new' method. e.g.
+
+0.32  Tue Oct 08 16:43:01 2013
+	- change internal tech and db format to support CG's shell list and VCF,
+	  also will change to annotate on real refSeq sequence, not the cut 
+	  from refgenome pseudo ones.
+
+0.33  Tue Oct 22 17:26:30 2013
+	- fix some bugs and release a new revision version for future test-cases.
+
+0.34  Mon Oct 28 22:38:06 2013
+	- add a method decide_major for crawler to generate 
+	  TranscriptVarName from major transcript
+	- The reformatAnno() will have a new key "TranscriptVarName" in 
+	  "var" to give the value please use "man doc/BedAnno.1" to 
+	  check the detail in "decide_major" method description
+
+0.35  Sat Nov 02 18:43:05 2013
+	- change to use Tabix Perl API instead of system call cmd: tabix
+
+0.36  Wed Nov 06 14:44:04 2013
+	- get rid of fetchseq by samtools faidx, hash all transcript 
+	  sequences at the very beginning.
+
+0.37  Fri Nov 15 20:13:43 2013
+	- fix bugs for many different special variants position or sequence states
+
+0.38  Tue Nov 20 00:18:01 2013
+	- fix a bug for edge insertion case
+
+0.39  Wed Dec 04 19:39:05 2013
+	- fix some minor bugs
+	- add trWalker method to uniform the cHGVS string to give 
+	  3-END most variation and recognize whole repeat region 
+	  case in transcripts.
+
+0.40  Wed Dec 11 22:30:06 2013
+	- add condel score and prediction, based on the 
+	  VEP_plugins/Condel.pm version 2.4
+	  The scores seem a little different from the VEP version 2.6's result, 
+	  though the prediction are the same from checking one of example var.
+	- add an option 'quiet' to suppress warning information for 
+	  extra database query.
+	- change master branch to not to use threads::shared
+	- add repeat tag extradb and api.
+	- allow remaining extra information in the BedAnno::Var entry 
+	  by using hash ref input.
+	- fix BedAnno::Var->new for VCF reference variant parsing.
+	- reformatAnno() is changed to give uniform begin/end position
+
+0.41  Wed Feb 19 14:44:44 2014
+	- for crawler need, move TranscriptVarName to VarName
+	- for crawler need, move GenePartIndex to ComponentIndex
+	- for crawler need, add ImpactIndex, GenePartIndex, varTypeIndex
+	- for crawler need, add trVarName for each transcript.
+	- add varName to var hash, add trVarName to trInfo tr hash.
+
+0.42  Mon Mar 03 15:15:15 2014
+	- add DESTROY method to prevent memory leak.
+
+0.43  Wes Mar 05 13:45:45 2014
+	- fix bugs for cds exon-intron edge insertion variants.
+
+0.44  Thu Mar 06 13:58:58 2014
+	- fix a bug for using trans options to limit annotation.
+
+0.45  Thu Mar 13 11:18:23 2014
+	- fix a problem when repeat get across two different region,
+	  original cHGVS will give the repeat format cHGVS, and for now,
+	  it will give it as a delins.
+	- add new keys alt_cHGVS and alt_pHGVS to transcript var hash
+          to give a backward compatible HGVS naming for repeat format
+	  HGVS, which can be easily used to query public databases.
+
+0.46  Mon Mar 17 12:20:12 2014
+	- fix a bug for middle intron variant
+	- fix exon region no-call notation, change '=' to actual base
+	- fix p.= to p.(=)
+
+0.47  Tue Mar 18 09:49:50
+	- fix cDot name for del and delins case, with adding the deleted bases.
+	- fix a bug in exon-intron span case
+	- add a limitation of repeat parsing, for time consuming.
+	- fix a minor problem for outside promoter region span case
+	- fix a 'fs*1' problem
+
+0.48  Mon Mar 24 19:33:20
+	- fix reformatAnno to give chromosome a "chr" prefix.
+	- fix protBegin for frameshift variant with skipping the same bases.
+
+0.49  Tue Mar 25 22:04:00
+	- enhance pDot name to add prWalker to allow protein variant walk around
+	  It'll allow tandom protein seq repeat to be called following the 3'most 
+	  rule, and only will be difference to previous notation when there 
+	  exists a tandom repeat protein sequence which its nucleotide 
+	  sequence is not tandom repeat.
+
+0.50  Wed Mar 26 19:55:00
+	- uniform HGVS notation by add standard_xHGVS for repeats, 
+	  original alt_xHGVS has changed to del/ins format notation
+
+0.51  Thu Mar 27 13:46:23
+	- fix a bug for standard_pHGVS and add 3 letter format pHGVS in hash
+
+0.52  Tue Apr 01 15:45:12
+	- uniform the prediction words for AE
+
+0.53  Wed Apr 02 16:21:30
+	- change translation seq - protein seq length differ 
+	  transcript to be annotation-fail
+
+0.54  Thu Apr 03 19:41:20
+	- add get_cover_batch to generate region information for given regions
+
+0.55  Fri Apr 04 13:00:05
+	- change get_cover_batch to backward compatible to BedAnno v0.32
+
+0.56  Fri Apr 18 10:02:01
+	- fix a problem for some special codon '?'
+	- fix function code of fs*1 frameshift to nonsense
+
+0.57  Wed Apr 23 20:05:12
+	- add support custom frequency db
+	  multiple dbs will require similar multiple options
+
+0.58  Mon Apr 28 09:20:12
+	- remove unavailable resource
+
+0.59  Fri May 09 16:14:23
+	- add alternative pHGVS string for synonymous variant.
+
+0.60  Thr Jul 10 09:42:21
+	- fix a bug in getTrChange for 3U span case
+	- fix a problem for batched process when multiple same start 
+	  blocks hit one same edge position
+
+0.61  Tue Jul 15 17:53:30
+	- fix a problem for insertion of stop codon.
+
+0.62  Wed Jul 16 09:12:31
+	- fix a problem for N-called no call variant.
+	- fix a bug for trWalker and prWalker for walking to the ends.
+
+0.70  Tue Jul 22 17:28:21
+	- add BedAnno::CNV child module to annotate CNV in batch mode.
+
+0.71  Wed Jul 23 11:38:22
+	- add single cnv var anno method annoCNV()
+
+0.72  Sat Sep 27 13:49:13
+	- fix bug in BedAnno for mismatch block edge insertion variant
+	- fix problem for primary tag assignment when using LRG_refGene, 
+	  without reference standard transcript. (db changed)
+	- fix problem for 3bp ranged neighbor ins/del/delins mismatch 
+	  caused curious annotation by merging to large delins. (db changed)
+	- fix to support annotation for transcript with originally 
+	  containing frameshift-site. (db and module changed)
+
+0.73  Tue Oct 21 10:42:23
+	- add support to annotate edge span case transcript (db and module changed)
+
+0.74  Wed Oct 22 10:03:45
+	- change genepart of splice/intron span case to splice site genepart
+	- change edge insertion case genepart to span
+	- change to show componentIndex of promoter-5'utr, 3'utr-3'downstream span case.
+	- assign the 5' start position's componentIndex as the one of span case
+
+0.75  Fri Oct 24 09:41:22
+	- change to give affected protein coordinates for all kinds of variants
+        - change to support auto checking canonical splice site for substitution 
+          in splice region
+
+0.76  Mon Oct 27 15:14:23
+	- fix a bug in intron genepart assignment
+
+0.77  Fri Nov 07 16:13:35
+	- change to add support to 4 alternative splice related function recognise.
+	  with adding 3 new keys: alt_func alt_funcSO and alt_funcSOname to trInfo's subhash.
+	  The priority of these 4 function code is 
+	    "exon-loss | splice-5-5th > splice-region > splice-ext"
+	  They can not be shown at the same time, becase their definition are overlapped with
+          each other.
+
+0.78  Tue Nov 18 10:35:12
+	- correct mitochondrial genes symbol to its original format
+	- add support to query ExAC database, depend on new plugin: GetExAC.pm
+
+0.79  Wed Nov 19 16:28:21
+	- change reformatAnno to group allele frequency together.
+
+0.80  Wed Dec 02 16:34:04
+	- change cnv annotation to support sfari database.
+
+0.81  Mon Dec 15 13:17:05
+	- fix a problem for 3'downstream var next to bad alignment block.
+
+0.82  Wed Dec 25 11:17:08
+	- fix to change indel caused stop_gained to frameshift
+
+0.83  Mon Jan 12 16:40:01
+	- fix a bug for ins badaln annotation.
+
+0.84  Tue Jan 13 16:03:01
+	- add DistanceToExon for crawler.
+
+0.85  Wed Jan 14 18:00:00
+	- add cnvd for cnv anno
+
+0.86  Fri Feb 27 16:16:01
+	- fix long reference case to give annotation anyway.
+
+0.88  Wed Apr 29 15:00:01
+    - remove reformat_anno method from BedAnno
+
+1.00  Sat May 7 18:00:01
+    - update to HGVS version 2.1511
+
+1.01  Thu Mar 17 00:10:00
+    - correct a probleam of mutation with stop codon inserted in, the pHGVS is corrected now.
+
+1.11  Fri Apr 7 08:54:12
+    - Add gnomAD query API and corresponding info hash
+
+1.12  Thu Aug 17 18:06:12
+    - Change to use TGP's new API, not only frequency information, but also other infomation is involved in hash
+
+1.13  Fri Sep  8 13:41:49
+    - Change fs1 frameshift to show fs*1 in pHGVS to be used to differ from nonsense mutation
